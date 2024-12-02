@@ -2,8 +2,16 @@ const router = require('express').Router();
 const Url = require('../models/urlschema')
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
+router.get('/', async function (req, res, next) {
+    try{
+        const urls = await Url.find();
+        console.log("url fetched successfully");
+        res.render('index', { URLS : urls });
+    }catch(err){
+        console.error("can't fetch urls :",err);
+        res.status(500);
+        res.send("internal server error");
+    }
 });
 
 router.post('/' , async (req , res , next)=>{
