@@ -29,4 +29,20 @@ router.post('/' , async (req , res , next)=>{
     }
 })
 
+router.get('/:alias' , async(req , res , next)=>{
+    try{
+        const link = await Url.findOne({alias : req.params.alias});
+        if(link){
+            console.log("link was founded");
+            console.log(link);
+            res.redirect(link.original);
+        }else{
+            console.log("link wasn't founded");
+            res.status(404).send("page not found");
+        }
+    }catch(err){
+        console.error(err);
+    }
+})
+
 module.exports = router;
